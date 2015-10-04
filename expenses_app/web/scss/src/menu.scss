@@ -1,0 +1,43 @@
+nav#menu {
+    height: 40px;
+    line-height: 36px;
+    font-size: 18px;
+    background-color: $dark-color;
+    border-bottom: 2px solid $text-on-dark;
+    color: $text-on-dark;
+
+    li {
+        list-style-type: none;
+        display: inline;
+        padding-left: 15px;
+
+        a {
+            color: $text-on-dark;
+        }
+
+        a:focus, a:hover {
+            color: $text-on-dark-active;
+            text-decoration: none;
+        }
+    }
+
+    ul {
+        display: inline;
+        padding-left: 0px;
+    }
+
+    span {
+        font-weight: 700;
+        font-size: 22px;
+        padding: 0px 15px;
+        border-right: 2px solid $text-on-dark;
+    }
+
+    i {
+        float: right;
+        padding-right: 10px;
+        font-size: 20px;
+        line-height: 36px;
+        cursor: pointer;
+    }
+}

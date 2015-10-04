@@ -1,0 +1,15 @@
+{% extends "expenses_app/layout.html" %}
+
+{% block content %}
+    <div class="page-new-bill col-md-6">
+        <button class="pull-right btn btn-success">Submit</button>
+        <h1>Create new bill</h1>
+
+        <div class="section sum-section form-group">
+            <label for="sum" class="col-md-2 control-label">Sum</label>
+            <div class="col-md-10">
+                <input type="text" name="sum" id="sum" class="form-control">
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {% load staticfiles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'expenses_app/style.css' %}" />
+{% endblock %}
+
+{% block title %}Home Expenses{% endblock %}
+
+{% block body %}
+    <nav id="menu">
+        {% block menu %}
+        <span>Home Expenses</span>
+        <ul>
+            <li><a href="{% url 'expenses_app:index' %}">Home</a></li>
+            <li><a href="{% url 'expenses_app:new_bill' %}">New bill</a></li>
+            <li><a href="">Charts</a></li>
+            <li><a href="">Summary</a></li>
+        </ul>
+        <i class="fa fa-bars"></i>
+        {% endblock %}
+    </nav>
+
+    <div id="content" class="container-fluid">
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}
