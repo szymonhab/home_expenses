@@ -24,12 +24,20 @@ class Person(models.Model):
         return self.name + ' ' + self.surname
 
 
+class Shop(models.Model):
+    name = models.CharField(max_length=127)
+
+    def __str__(self):
+        return self.name
+
+
 class Bill(models.Model):
     bill_date = models.DateField()
     add_datetime = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     person = models.ForeignKey(Person)
     workspace = models.ForeignKey(Workspace)
+    shop = models.ForeignKey(Shop, null=True)
 
     def __str__(self):
         return self.id

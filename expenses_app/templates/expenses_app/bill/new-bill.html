@@ -28,11 +28,18 @@
                 </div>
                 <div class="row">
                     <label for="{{ form.bill_date.id_for_label }}" class="col-md-2 control-label">Bill date</label>
-                    <div class="col-md-6">{{ form.bill_date|add_class:"form-control" }}</div>
+                    <div class="col-md-6">
+                        {{ form.bill_date|add_class:"form-control" }}
+                    </div>
                     <div class="col-md-4">{{ form.bill_date.errors }}</div>
                 </div>
                 {{ form.rows }}
             </div>
         </div>
     </form>
+    <script>
+        $("#id_bill_date").datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+    </script>
 {% endblock %}
