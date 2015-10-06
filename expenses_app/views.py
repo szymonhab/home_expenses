@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import permission_required
 
 from .models import Bill
 from .forms import BillForm
 
 
+@permission_required('workspace.access_workspace')
 def index(request):
     latest_bill_list = Bill.objects.order_by('-add_datetime')[:10]
     context = {

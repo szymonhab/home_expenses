@@ -13,24 +13,22 @@
                 {{ form.non_field_errors }}
                 <div class="row">
                     <label for="{{ form.amount.id_for_label }}" class="col-md-2 control-label">Sum</label>
-                    <div class="col-md-6">{{ form.amount|add_class:"form-control" }}</div>
+                    <div class="col-md-6">{{ form.amount|add_class:"form-control input-sm" }}</div>
                     <div class="col-md-4">{{ form.amount.errors }}</div>
                 </div>
                 <div class="row">
                     <label for="{{ form.person.id_for_label }}" class="col-md-2 control-label">Person</label>
-                    <div class="col-md-6">{{ form.person|add_class:"form-control" }}</div>
+                    <div class="col-md-6">{{ form.person|add_class:"form-control input-sm" }}</div>
                     <div class="col-md-4">{{ form.person.errors }}</div>
                 </div>
                 <div class="row">
                     <label for="{{ form.shop.id_for_label }}" class="col-md-2 control-label">Shop</label>
-                    <div class="col-md-6">{{ form.shop|add_class:"form-control" }}</div>
+                    <div class="col-md-6">{{ form.shop|add_class:"form-control input-sm" }}</div>
                     <div class="col-md-4">{{ form.shop.errors }}</div>
                 </div>
                 <div class="row">
                     <label for="{{ form.bill_date.id_for_label }}" class="col-md-2 control-label">Bill date</label>
-                    <div class="col-md-6">
-                        {{ form.bill_date|add_class:"form-control" }}
-                    </div>
+                    <div class="col-md-6">{{ form.bill_date|add_class:"form-control input-sm" }}</div>
                     <div class="col-md-4">{{ form.bill_date.errors }}</div>
                 </div>
                 {{ form.rows }}
