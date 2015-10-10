@@ -1,9 +1,12 @@
+import json
+
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core import serializers
 from django.contrib.auth.decorators import permission_required
 
-from .models import Bill
+from .models import Bill, Category
 from .forms import BillForm
 
 
@@ -44,4 +47,13 @@ def new_bill(request):
     else:
         form = BillForm()
 
-    return render(request, 'expenses_app/bill/new-bill.html', {'form': form})
+    categories = Category.objects.filter(workspace=1)
+    categoriesJSON = serializers.serialize('json', categories, fields=('name'))
+    categoriesJSON = categoriesJSON.replace('"', "'")
+
+    context = {
+        'form': form,
+        'categoriesJSON': categoriesJSON
+    }
+
+    return render(request, 'expenses_app/bill/new-bill.html', context)

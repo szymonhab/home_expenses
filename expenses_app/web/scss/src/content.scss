@@ -4,16 +4,29 @@ body {
     #content {
         padding: 20px 20px 0px 20px;
 
-        .section {
+        section {
             margin: 20px 0px;
         }
 
         h1, h2, h3, h4, h5, h6 {
-            margin-top: 0px
+            margin-top: 0px;
+            margin-bottom: 15px;
         }
 
         .errorlist {
             color: $error-color;
         }
     }
+
+    .pointer {
+        cursor: pointer;
+    }
+
+    .success-color {
+        color: $success-color;
+    }
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }

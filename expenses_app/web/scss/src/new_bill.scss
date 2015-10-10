@@ -1,5 +1,14 @@
 .page-new-bill {
-    .sum-section {
+    .bill-rows {
+        .row {
+            margin-top: 10px;
 
+            div {
+                .fa {
+                    margin-top: 3px;
+                    font-size: 21px;
+                }
+            }
+        }
     }
 }

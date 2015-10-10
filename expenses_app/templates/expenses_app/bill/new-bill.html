@@ -3,41 +3,78 @@
 {% block content %}
     {% load widget_tweaks %}
 
-    <form method="POST">
-        <div class="page-new-bill col-md-6">
-            <button class="pull-right btn btn-success">Submit</button>
-            <h1>Create new bill</h1>
+    <div data-ng-controller="NewBillCtrl" data-ng-cloak data-ng-init="categories={{ categoriesJSON|safe }};">
+        <form method="POST">
+            <div class="page-new-bill col-md-6">
+                <button class="pull-right btn btn-success">Create</button>
 
-            <div class="section sum-section form-group">
-                {% csrf_token %}
-                {{ form.non_field_errors }}
-                <div class="row">
-                    <label for="{{ form.amount.id_for_label }}" class="col-md-2 control-label">Sum</label>
-                    <div class="col-md-6">{{ form.amount|add_class:"form-control input-sm" }}</div>
-                    <div class="col-md-4">{{ form.amount.errors }}</div>
-                </div>
-                <div class="row">
-                    <label for="{{ form.person.id_for_label }}" class="col-md-2 control-label">Person</label>
-                    <div class="col-md-6">{{ form.person|add_class:"form-control input-sm" }}</div>
-                    <div class="col-md-4">{{ form.person.errors }}</div>
-                </div>
-                <div class="row">
-                    <label for="{{ form.shop.id_for_label }}" class="col-md-2 control-label">Shop</label>
-                    <div class="col-md-6">{{ form.shop|add_class:"form-control input-sm" }}</div>
-                    <div class="col-md-4">{{ form.shop.errors }}</div>
-                </div>
-                <div class="row">
-                    <label for="{{ form.bill_date.id_for_label }}" class="col-md-2 control-label">Bill date</label>
-                    <div class="col-md-6">{{ form.bill_date|add_class:"form-control input-sm" }}</div>
-                    <div class="col-md-4">{{ form.bill_date.errors }}</div>
-                </div>
-                {{ form.rows }}
+                <section class="bill-header form-group">
+                    <h1>Create new bill</h1>
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="row">
+                        <label for="{{ form.amount.id_for_label }}" class="col-md-2 control-label">Sum</label>
+                        <div class="col-md-6">{{ form.amount|add_class:"form-control input-sm" }}</div>
+                        <div class="col-md-4">{{ form.amount.errors }}</div>
+                    </div>
+                    <div class="row">
+                        <label for="{{ form.person.id_for_label }}" class="col-md-2 control-label">Person</label>
+                        <div class="col-md-6">{{ form.person|add_class:"form-control input-sm" }}</div>
+                        <div class="col-md-4">{{ form.person.errors }}</div>
+                    </div>
+                    <div class="row">
+                        <label for="{{ form.shop.id_for_label }}" class="col-md-2 control-label">Shop</label>
+                        <div class="col-md-6">{{ form.shop|add_class:"form-control input-sm" }}</div>
+                        <div class="col-md-4">{{ form.shop.errors }}</div>
+                    </div>
+                    <div class="row">
+                        <label for="{{ form.bill_date.id_for_label }}" class="col-md-2 control-label">Bill date</label>
+                        <div class="col-md-6">{{ form.bill_date|add_class:"form-control input-sm" }}</div>
+                        <div class="col-md-4">{{ form.bill_date.errors }}</div>
+                    </div>
+                </section>
+
+                <section class="bill-rows form-group">
+                    <h2>Split bill</h2>
+                    {{ form.rows }}
+                    <div class="row" data-ng-repeat="row in billRows">
+                        <div class="col-md-2">
+                            <input type="text" class="form-control input-sm" placeholder="Sum">
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control input-sm">
+                                <option value="" disabled selected>Choose category</option>
+                                <option value="{[{ category.pk }]}" data-ng-repeat="category in categories">{[{ category.fields.name }]}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control input-sm" placeholder="Optional label">
+                        </div>
+                        <div class="col-md-1">
+                            <i class="fa fa-trash-o pointer"
+                               data-ng-show="!$first"
+                               data-ng-click="deleteRow($index)"
+                               title="Delete bill row"></i>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-11"></div>
+                        <div class="col-md-1">
+                            <i class="fa fa-plus pointer success-color"
+                               data-ng-click="addRow()"
+                               title="Add category row to bill"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <button class="pull-right btn btn-success">Create</button>
             </div>
-        </div>
-    </form>
-    <script>
-        $("#id_bill_date").datepicker({
-            dateFormat: "yy-mm-dd"
-        });
-    </script>
+        </form>
+        <script>
+            $("#id_bill_date").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        </script>
+    </div>
 {% endblock %}
