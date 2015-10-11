@@ -63,6 +63,10 @@ body .success-color {
   display: none !important;
 }
 
+input.ng-invalid.ng-touched {
+  border: 1px solid #DD3333;
+}
+
 .page-new-bill .bill-rows .row {
   margin-top: 10px;
 }

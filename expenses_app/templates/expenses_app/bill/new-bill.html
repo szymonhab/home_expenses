@@ -3,10 +3,20 @@
 {% block content %}
     {% load widget_tweaks %}
 
-    <div data-ng-controller="NewBillCtrl" data-ng-cloak data-ng-init="categories={{ categoriesJSON|safe }};">
-        <form method="POST">
-            <div class="page-new-bill col-md-6">
-                <button class="pull-right btn btn-success">Create</button>
+    <div data-ng-controller="NewBillCtrl"
+         data-ng-cloak data-ng-init="{% spaceless %}
+            categories={{ categoriesJSON|safe }};
+            {% if post.amount %}
+                bill.sum='{{ post.amount }}'
+            {% endif %};
+         {% endspaceless %}">
+        <form method="POST"
+              action="{% url 'expenses_app:new_bill' %}"
+              novalidate="novalidate"
+              name="billForm"
+              data-ng-submit="bill.submit($event)">
+            <div class="page-new-bill col-md-8 col-md-offset-2">
+                <button class="pull-right btn btn-success" type="submit">Create</button>
 
                 <section class="bill-header form-group">
                     <h1>Create new bill</h1>
@@ -14,7 +24,7 @@
                     {{ form.non_field_errors }}
                     <div class="row">
                         <label for="{{ form.amount.id_for_label }}" class="col-md-2 control-label">Sum</label>
-                        <div class="col-md-6">{{ form.amount|add_class:"form-control input-sm" }}</div>
+                        <div class="col-md-6">{{ form.amount|add_class:"form-control input-sm select-on-focus" }}</div>
                         <div class="col-md-4">{{ form.amount.errors }}</div>
                     </div>
                     <div class="row">
@@ -37,14 +47,21 @@
                 <section class="bill-rows form-group">
                     <h2>Split bill</h2>
                     {{ form.rows }}
-                    <div class="row" data-ng-repeat="row in billRows">
+                    <div class="row" data-ng-repeat="row in bill.billRows">
                         <div class="col-md-2">
-                            <input type="text" class="form-control input-sm" placeholder="Sum">
+                            <input
+                                    type="text"
+                                    class="form-control input-sm select-on-focus"
+                                    placeholder="Sum"
+                                    data-ng-model="bill.billRows[$index].sum"
+                                    data-ng-pattern="sumPattern">
                         </div>
                         <div class="col-md-4">
                             <select class="form-control input-sm">
-                                <option value="" disabled selected>Choose category</option>
-                                <option value="{[{ category.pk }]}" data-ng-repeat="category in categories">{[{ category.fields.name }]}</option>
+                                <option value="" disabled="disabled" selected="selected">Choose category</option>
+                                <option value="{[{ category.pk }]}" data-ng-repeat="category in categories">
+                                    {[{ category.fields.name }]}
+                                </option>
                             </select>
                         </div>
                         <div class="col-md-5">
@@ -68,7 +85,7 @@
                     </div>
                 </section>
 
-                <button class="pull-right btn btn-success">Create</button>
+                <button class="pull-right btn btn-success" type="submit">Create</button>
             </div>
         </form>
         <script>

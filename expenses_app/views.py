@@ -1,5 +1,3 @@
-import json
-
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -34,6 +32,7 @@ def bill_details(request, bill_id):
 def new_bill(request):
     if request.method == 'POST':
         form = BillForm(request.POST)
+        import pdb; pdb.set_trace()
         if form.is_valid():
             person = form.cleaned_data['person']
             amount = form.cleaned_data['amount']
@@ -48,12 +47,13 @@ def new_bill(request):
         form = BillForm()
 
     categories = Category.objects.filter(workspace=1)
-    categoriesJSON = serializers.serialize('json', categories, fields=('name'))
-    categoriesJSON = categoriesJSON.replace('"', "'")
+    categories_json = serializers.serialize('json', categories, fields='name')
+    categories_json = categories_json.replace('"', "'")
 
     context = {
         'form': form,
-        'categoriesJSON': categoriesJSON
+        'categoriesJSON': categories_json,
+        'post': request.POST
     }
 
     return render(request, 'expenses_app/bill/new-bill.html', context)

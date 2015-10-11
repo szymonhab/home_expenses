@@ -1,12 +1,13 @@
 from django import forms
 
-from .models import Person
-from .models import Shop
+from .models import Person, Shop
 
 
 class BillForm(forms.Form):
     person = forms.ModelChoiceField(queryset=Person.objects.all())
     shop = forms.ModelChoiceField(queryset=Shop.objects.all())
-    amount = forms.DecimalField(max_digits=8, decimal_places=2, widget=forms.TextInput)
+    amount = forms.DecimalField(max_digits=8, decimal_places=2, widget=forms.TextInput(
+        attrs={'data-ng-model': 'bill.sum', 'data-ng-pattern': 'sumPattern'}))
     bill_date = forms.DateField()
-    rows = forms.CharField(widget=forms.HiddenInput)
+    rows = forms.CharField(widget=forms.HiddenInput(
+        attrs={'data-ng-model': 'bill.billRows'}))
