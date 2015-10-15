@@ -10,4 +10,4 @@ class BillForm(forms.Form):
         attrs={'data-ng-model': 'bill.sum', 'data-ng-pattern': 'sumPattern'}))
     bill_date = forms.DateField()
     rows = forms.CharField(widget=forms.HiddenInput(
-        attrs={'data-ng-model': 'bill.billRows'}))
+        attrs={'value': '{[{ bill.billRows|json }]}'}))

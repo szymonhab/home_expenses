@@ -1,10 +1,13 @@
+import json
+import pprint
+
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core import serializers
 from django.contrib.auth.decorators import permission_required
 
-from .models import Bill, Category
+from .models import Bill, Category, Workspace
 from .forms import BillForm
 
 
@@ -32,14 +35,16 @@ def bill_details(request, bill_id):
 def new_bill(request):
     if request.method == 'POST':
         form = BillForm(request.POST)
-        import pdb; pdb.set_trace()
         if form.is_valid():
             person = form.cleaned_data['person']
             amount = form.cleaned_data['amount']
             bill_date = form.cleaned_data['bill_date']
-            rows = form.cleaned_data['rows']
+            rows_json = form.cleaned_data['rows']
+            rows = json.loads(rows_json)
+            pprint.pprint(rows)
             shop = form.cleaned_data['shop']
-            bill = Bill(bill_date=bill_date, amount=amount, person=person, workspace=1)
+            workspace = Workspace.objects.get(pk=1)
+            bill = Bill(bill_date=bill_date, amount=amount, person=person, workspace=workspace)
             bill.save()
 
             return HttpResponseRedirect(reverse('expenses_app:new_bill'))

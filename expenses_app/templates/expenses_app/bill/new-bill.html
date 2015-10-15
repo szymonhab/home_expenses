@@ -57,7 +57,7 @@
                                     data-ng-pattern="sumPattern">
                         </div>
                         <div class="col-md-4">
-                            <select class="form-control input-sm">
+                            <select class="form-control input-sm" data-ng-model="bill.billRows[$index].category">
                                 <option value="" disabled="disabled" selected="selected">Choose category</option>
                                 <option value="{[{ category.pk }]}" data-ng-repeat="category in categories">
                                     {[{ category.fields.name }]}
@@ -65,7 +65,7 @@
                             </select>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" class="form-control input-sm" placeholder="Optional label">
+                            <input type="text" class="form-control input-sm" placeholder="Optional label" data-ng-model="bill.billRows[$index].label">
                         </div>
                         <div class="col-md-1">
                             <i class="fa fa-trash-o pointer"
