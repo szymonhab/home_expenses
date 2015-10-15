@@ -6,10 +6,20 @@ $(document).ready(function() {
     $(".select-on-focus").focus(function() { $(this).select(); } );
 });
 
-function getCurrency(val) {
+expensesApp.directive('replacecomma', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModelCtrl) {
+            scope.$watch(attrs.ngModel, function (newVal) {
+                if (newVal !== undefined && newVal !== null) {
+                    ngModelCtrl.$setViewValue(String(newVal).replace(/,/g, '.'));
+                    element.val(String(newVal).replace(/,/g, '.'));
+                }
+            })
 
-    return parseFloat(String(val).replace(',', '.'));
-}
+        }
+    }
+});
 
 expensesApp.controller('NewBillCtrl', function ($scope) {
     $scope.bill = {
@@ -19,7 +29,7 @@ expensesApp.controller('NewBillCtrl', function ($scope) {
             var tmpSum = 0;
 
             for (i = 0; i < $scope.bill.billRows.length; i++) {
-                tmpSum = getCurrency(tmpSum) + getCurrency($scope.bill.billRows[i].sum);
+                tmpSum = parseFloat(tmpSum) + parseFloat($scope.bill.billRows[i].sum);
             }
 
             if (Number(tmpSum.toFixed(2)) != $scope.bill.sum) {
@@ -30,11 +40,11 @@ expensesApp.controller('NewBillCtrl', function ($scope) {
             }
         },
         updateRows: function() {
-            var tmpSum = getCurrency($scope.bill.sum);
+            var tmpSum = parseFloat($scope.bill.sum);
             var billRowsLength = $scope.bill.billRows.length;
 
             for (i = 0; i < billRowsLength - 1; i++) { // We do not want to count last element
-                tmpSum = getCurrency(tmpSum) - getCurrency($scope.bill.billRows[i].sum);
+                tmpSum = parseFloat(tmpSum) - parseFloat($scope.bill.billRows[i].sum);
             }
 
             $scope.bill.billRows[billRowsLength - 1].sum = parseFloat(tmpSum).toFixed(2).replace('.', ',');
