@@ -10,6 +10,7 @@ nav#menu {
         list-style-type: none;
         display: inline;
         padding-left: 15px;
+        padding-right: 5px;
 
         a {
             color: $text-on-dark;
@@ -22,6 +23,7 @@ nav#menu {
     }
 
     ul {
+        cursor: default;
         display: inline;
         padding-left: 0px;
     }

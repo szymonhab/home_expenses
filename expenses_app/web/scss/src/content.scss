@@ -31,6 +31,6 @@ body {
     display: none !important;
 }
 
-input.ng-invalid.ng-touched {
+input.ng-invalid.ng-touched, select.ng-invalid {
     border: 1px solid $error-color;
 }

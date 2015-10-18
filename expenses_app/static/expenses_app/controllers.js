@@ -24,7 +24,7 @@ expensesApp.directive('replacecomma', function () {
 expensesApp.controller('NewBillCtrl', function ($scope) {
     $scope.bill = {
         'sum': 0,
-        'billRows': [{'sum': 0}],
+        'billRows': [{'sum': 0, 'label': ''}],
         submit: function(event) {
             var tmpSum = 0;
 
@@ -55,7 +55,7 @@ expensesApp.controller('NewBillCtrl', function ($scope) {
     $scope.sumPattern = sumRegex;
 
     $scope.addRow = function() {
-        $scope.bill.billRows.push({'sum': 0});
+        $scope.bill.billRows.push({'sum': 0, 'label': ''});
         $scope.bill.updateRows();
     }
 
