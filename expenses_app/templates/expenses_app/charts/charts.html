@@ -1,0 +1,41 @@
+{% extends "expenses_app/layout.html" %}
+
+{% block content %}
+    <div class="page-bill col-md-8 col-md-offset-2">
+        <form method="POST" action="{% url 'expenses_app:delete_bill' bill.id %}">
+            {% csrf_token %}
+            <button class="pull-right btn btn-danger" type="submit" title="Delete current bill">
+                Delete bill
+            </button>
+        </form>
+
+        <h1>Bill {{ bill.id }}</h1>
+
+        <ul>
+            <li>Amount: {{ bill.amount }}</li>
+            <li>Shop: {{ bill.shop }}</li>
+            <li>Person: {{ bill.person }}</li>
+            <li>Add date: {{ bill.add_datetime|date:"Y-m-d H:i:s" }}</li>
+            <li>Date: {{ bill.bill_date|date:"Y-m-d" }}</li>
+        </ul>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sum</th>
+                    <th>Category</th>
+                    <th>Label</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in bill.billrow_set.all %}
+                <tr>
+                    <td>{{ row.amount }}</td>
+                    <td>{{ row.category }}</td>
+                    <td>{{ row.label }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
