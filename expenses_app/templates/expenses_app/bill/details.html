@@ -2,6 +2,13 @@
 
 {% block content %}
     <div class="page-bill col-md-8 col-md-offset-2">
+        <form method="POST" action="{% url 'expenses_app:delete_bill' bill.id %}">
+            {% csrf_token %}
+            <button class="pull-right btn btn-danger" type="submit" title="Delete current bill">
+                Delete bill
+            </button>
+        </form>
+
         <h1>Bill {{ bill.id }}</h1>
 
         <ul>

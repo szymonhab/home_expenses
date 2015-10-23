@@ -15,7 +15,6 @@ import os
 
 # Import sensitive/gitignored data
 from .settings_secret import *
-from django.core.urlresolvers import reverse
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

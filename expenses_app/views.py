@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core import serializers
@@ -48,3 +48,11 @@ def new_bill(request):
     }
 
     return render(request, 'expenses_app/bill/new-bill.html', context)
+
+@permission_required('expenses_app.access_workspace')
+def delete_bill(request, bill_id):
+    if request.method == 'POST':
+        bill = Bill.objects.get(pk=bill_id)
+        bill.delete()
+
+    return redirect('expenses_app:index')

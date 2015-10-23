@@ -1,5 +1,3 @@
-import json
-
 from django.db import models
 
 
@@ -49,7 +47,7 @@ class BillRow(models.Model):
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     label = models.CharField(max_length=127)
     category = models.ForeignKey(Category)
-    bill = models.ForeignKey(Bill)
+    bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
