@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -56,3 +58,9 @@ def delete_bill(request, bill_id):
         bill.delete()
 
     return redirect('expenses_app:index')
+
+@permission_required('expenses_app.access_workspace')
+def charts(request):
+    context = {'bills': Bill.objects.filter(bill_date__gt=datetime.date(2015, 10, 1))}
+
+    return render(request, 'expenses_app/charts/charts.html', context)

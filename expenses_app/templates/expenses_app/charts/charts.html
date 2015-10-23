@@ -1,41 +1,47 @@
 {% extends "expenses_app/layout.html" %}
 
+{% block js %}
+    {% load staticfiles %}
+    {{ block.super }}
+    <script src="{% static 'expenses_app/Chart.min.js' %}"></script>
+{% endblock %}
+
 {% block content %}
-    <div class="page-bill col-md-8 col-md-offset-2">
-        <form method="POST" action="{% url 'expenses_app:delete_bill' bill.id %}">
-            {% csrf_token %}
-            <button class="pull-right btn btn-danger" type="submit" title="Delete current bill">
-                Delete bill
-            </button>
-        </form>
+    <div class="page-charts col-md-8 col-md-offset-2">
+        <h1>Charts</h1>
 
-        <h1>Bill {{ bill.id }}</h1>
-
-        <ul>
-            <li>Amount: {{ bill.amount }}</li>
-            <li>Shop: {{ bill.shop }}</li>
-            <li>Person: {{ bill.person }}</li>
-            <li>Add date: {{ bill.add_datetime|date:"Y-m-d H:i:s" }}</li>
-            <li>Date: {{ bill.bill_date|date:"Y-m-d" }}</li>
-        </ul>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Sum</th>
-                    <th>Category</th>
-                    <th>Label</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for row in bill.billrow_set.all %}
-                <tr>
-                    <td>{{ row.amount }}</td>
-                    <td>{{ row.category }}</td>
-                    <td>{{ row.label }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        <canvas id="billsChart" width="400" height="250"></canvas>
     </div>
+
+    <script>
+        var data = {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+            {
+                label: "My First dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [65, 59, 80, 81, 56, 55, 40]
+            },
+            {
+                label: "My Second dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [28, 48, 40, 19, 86, 27, 90]
+            }
+        ]
+    };
+
+
+        var ctx = document.getElementById("billsChart").getContext("2d");
+        var myNewChart = new Chart(ctx).Line(data);
+    </script>
 {% endblock %}
