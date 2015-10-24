@@ -1,10 +1,12 @@
 import datetime
+import json
 
 from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.core.urlresolvers import reverse
 from django.core import serializers
 from django.contrib.auth.decorators import permission_required
+from django.db.models import Sum
 
 from .models import Bill, Category
 from .forms import BillForm
@@ -51,6 +53,7 @@ def new_bill(request):
 
     return render(request, 'expenses_app/bill/new-bill.html', context)
 
+
 @permission_required('expenses_app.access_workspace')
 def delete_bill(request, bill_id):
     if request.method == 'POST':
@@ -59,8 +62,20 @@ def delete_bill(request, bill_id):
 
     return redirect('expenses_app:index')
 
+
 @permission_required('expenses_app.access_workspace')
 def charts(request):
-    context = {'bills': Bill.objects.filter(bill_date__gt=datetime.date(2015, 10, 1))}
+    return render(request, 'expenses_app/charts/charts.html', {})
 
-    return render(request, 'expenses_app/charts/charts.html', context)
+
+@permission_required('expenses_app.access_workspace')
+def get_two_weeks_data(request):
+    date_from = datetime.date.today() - datetime.timedelta(days=14)
+    bills = Bill.objects.filter(bill_date__gt=date_from, bill_date__lt=datetime.date.today()).values(
+        'bill_date').annotate(day_sum=Sum('amount'))
+
+    two_weeks_data = {str(datetime.date.today() - datetime.timedelta(days=x)): 0 for x in range(0, 14)}
+    for bill in bills:
+        two_weeks_data[str(bill['bill_date'])] = str(bill['day_sum'])
+
+    return JsonResponse(two_weeks_data, safe=False)

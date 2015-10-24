@@ -6,7 +6,11 @@
         {% if latest_bill_list %}
         <ul>
             {% for bill in latest_bill_list %}
-            <li><a href="{% url 'expenses_app:bill_details' bill.id %}">{{ bill.amount }}</a></li>
+            <li>
+                <a href="{% url 'expenses_app:bill_details' bill.id %}">
+                    {{ bill.shop }} {{ bill.amount }}
+                </a>
+            </li>
             {% endfor %}
         </ul>
         {% else %}

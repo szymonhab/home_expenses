@@ -2,9 +2,10 @@ from django.db import models
 
 
 class Workspace(models.Model):
+    currency = models.CharField(max_length=15)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 
 class Category(models.Model):
@@ -40,7 +41,7 @@ class Bill(models.Model):
     shop = models.ForeignKey(Shop, null=True)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 
 class BillRow(models.Model):
@@ -50,4 +51,4 @@ class BillRow(models.Model):
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
