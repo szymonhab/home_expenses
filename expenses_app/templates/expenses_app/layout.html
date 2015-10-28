@@ -16,7 +16,7 @@
             <li><a href="{% url 'expenses_app:index' %}">Home</a></li>
             <li><a href="{% url 'expenses_app:new_bill' %}">New bill</a></li>
             <li><a href="{% url 'expenses_app:charts' %}">Charts</a></li>
-            <li><a href="">Summary</a></li>
+            <li><a href="{% url 'expenses_app:summary' %}">Summary</a></li>
         </ul>
         <i class="fa fa-bars"></i>
         {% endblock %}

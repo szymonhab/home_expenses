@@ -1,0 +1,28 @@
+{% extends "expenses_app/layout.html" %}
+
+{% block content %}
+    <div class="page-charts col-md-8 col-md-offset-2">
+        <h1>Summary {{ date|date:"m/Y" }}</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Sum</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>All</td>
+                    <td>{{ bills_sum|default:'0.00' }}</td>
+                </tr>
+                {% for key, value in summary_data.items %}
+                <tr>
+                    <td>{{ value.category_name }}</td>
+                    <td>{{ value.amount|default:'0.00' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

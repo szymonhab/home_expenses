@@ -1,5 +1,4 @@
 import datetime
-import json
 
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponseRedirect, JsonResponse
@@ -8,7 +7,7 @@ from django.core import serializers
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Sum
 
-from .models import Bill, Category
+from .models import Bill, Category, BillRow
 from .forms import BillForm
 from .services import BillService
 
@@ -69,9 +68,9 @@ def charts(request):
 
 
 @permission_required('expenses_app.access_workspace')
-def get_two_weeks_data(request):
+def get_two_weeks_data():
     date_from = datetime.date.today() - datetime.timedelta(days=14)
-    bills = Bill.objects.filter(bill_date__gt=date_from, bill_date__lt=datetime.date.today()).values(
+    bills = Bill.objects.filter(bill_date__gt=date_from, bill_date__lt=datetime.date.today(), workspace=1).values(
         'bill_date').annotate(day_sum=Sum('amount'))
 
     two_weeks_data = {str(datetime.date.today() - datetime.timedelta(days=x)): 0 for x in range(0, 14)}
@@ -79,3 +78,26 @@ def get_two_weeks_data(request):
         two_weeks_data[str(bill['bill_date'])] = str(bill['day_sum'])
 
     return JsonResponse(two_weeks_data, safe=False)
+
+
+@permission_required('expenses_app.access_workspace')
+def summary(request):
+    date = datetime.date.today()
+    categories = Category.objects.filter(workspace=1)
+    bills = Bill.objects.filter(bill_date__month=date.month, bill_date__year=date.year, workspace=1)
+    bills_sum = Bill.objects.filter(bill_date__month=date.month, bill_date__year=date.year, workspace=1).aggregate(
+        bills_sum=Sum('amount'))['bills_sum']
+    summary_data = {}
+
+    for category in categories:
+        rows = BillRow.objects.filter(category=category, bill__in=list(bills)).aggregate(category_sum=Sum('amount'))
+        summary_data[category.id] = {
+            'category_name': category.name,
+            'amount': rows['category_sum']
+        }
+
+    return render(request, 'expenses_app/summary/summary.html', {
+        'date': date,
+        'summary_data': summary_data,
+        'bills_sum': bills_sum
+    })
