@@ -25,6 +25,14 @@ body {
     .success-color {
         color: $success-color;
     }
+
+    .spaced-top {
+        margin-top: 20px;
+    }
+
+    .spaced-bottom {
+        margin-top: 20px;
+    }
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

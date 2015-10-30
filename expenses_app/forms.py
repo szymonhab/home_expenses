@@ -1,3 +1,5 @@
+import datetime
+
 from django import forms
 
 from .models import Person, Shop
@@ -16,3 +18,7 @@ class BillForm(forms.Form):
     bill_date = forms.DateField()
     rows = forms.CharField(widget=forms.HiddenInput(
         attrs={'value': '{[{ bill.billRows|json }]}'}))
+
+
+class SummaryDateForm(forms.Form):
+    date = forms.DateField(widget=forms.DateInput(format='%m/%Y'), initial=datetime.date.today(), input_formats=['%m/%Y'])

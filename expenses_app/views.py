@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import permission_required
 from django.db.models import Sum
 
 from .models import Bill, Category, BillRow
-from .forms import BillForm
+from .forms import BillForm, SummaryDateForm
 from .services import BillService
 
 
@@ -83,6 +83,13 @@ def get_two_weeks_data():
 @permission_required('expenses_app.access_workspace')
 def summary(request):
     date = datetime.date.today()
+    if request.method == 'POST':
+        form = SummaryDateForm(request.POST)
+        if form.is_valid():
+            date = form.cleaned_data['date']
+    else:
+        form = SummaryDateForm()
+
     categories = Category.objects.filter(workspace=1)
     bills = Bill.objects.filter(bill_date__month=date.month, bill_date__year=date.year, workspace=1)
     bills_sum = Bill.objects.filter(bill_date__month=date.month, bill_date__year=date.year, workspace=1).aggregate(
@@ -99,5 +106,6 @@ def summary(request):
     return render(request, 'expenses_app/summary/summary.html', {
         'date': date,
         'summary_data': summary_data,
-        'bills_sum': bills_sum
+        'bills_sum': bills_sum,
+        'form': form
     })
