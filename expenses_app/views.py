@@ -37,9 +37,9 @@ def new_bill(request):
     if request.method == 'POST':
         form = BillForm(request.POST)
         if form.is_valid():
-            BillService.create_bill_from_form_data(form.cleaned_data)
+            bill = BillService.create_bill_from_form_data(form.cleaned_data)
 
-            return HttpResponseRedirect(reverse('expenses_app:new_bill'))
+            return HttpResponseRedirect(reverse('expenses_app:bill_details', args=[bill.id]))
     else:
         form = BillForm()
 
@@ -92,8 +92,6 @@ def summary(request):
 
     categories = Category.objects.filter(workspace=1)
     bills = Bill.objects.filter(bill_date__month=date.month, bill_date__year=date.year, workspace=1)
-    bills_sum = Bill.objects.filter(bill_date__month=date.month, bill_date__year=date.year, workspace=1).aggregate(
-        bills_sum=Sum('amount'))['bills_sum']
     summary_data = {}
 
     for category in categories:
@@ -106,6 +104,6 @@ def summary(request):
     return render(request, 'expenses_app/summary/summary.html', {
         'date': date,
         'summary_data': summary_data,
-        'bills_sum': bills_sum,
+        'bills_sum': bills.aggregate(bills_sum=Sum('amount'))['bills_sum'],
         'form': form
     })

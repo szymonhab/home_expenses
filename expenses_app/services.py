@@ -11,3 +11,5 @@ class BillService:
 
         for row in json.loads(data['rows']):
             bill.billrow_set.create(amount=row['sum'], label=row['label'], category_id=row['category'])
+
+        return bill
