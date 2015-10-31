@@ -6,23 +6,23 @@ nav#menu {
   border-bottom: 2px solid #099B60;
   color: #099B60;
 }
-nav#menu li {
+nav#menu > ul {
+  cursor: default;
+  display: inline;
+  padding-left: 0px;
+}
+nav#menu > ul li {
   list-style-type: none;
   display: inline;
   padding-left: 15px;
   padding-right: 5px;
 }
-nav#menu li a {
+nav#menu > ul li a {
   color: #099B60;
 }
-nav#menu li a:focus, nav#menu li a:hover {
+nav#menu > ul li a:focus, nav#menu > ul li a:hover {
   color: #0ab36f;
   text-decoration: none;
-}
-nav#menu ul {
-  cursor: default;
-  display: inline;
-  padding-left: 0px;
 }
 nav#menu span {
   font-weight: 700;
@@ -30,12 +30,15 @@ nav#menu span {
   padding: 0px 15px;
   border-right: 2px solid #099B60;
 }
-nav#menu i {
+nav#menu .dropdown {
   float: right;
   padding-right: 10px;
   font-size: 20px;
   line-height: 36px;
   cursor: pointer;
+}
+nav#menu .dropdown:hover {
+  color: #0ab36f;
 }
 
 body {

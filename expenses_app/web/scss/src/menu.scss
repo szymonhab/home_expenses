@@ -6,26 +6,26 @@ nav#menu {
     border-bottom: 2px solid $text-on-dark;
     color: $text-on-dark;
 
-    li {
-        list-style-type: none;
-        display: inline;
-        padding-left: 15px;
-        padding-right: 5px;
-
-        a {
-            color: $text-on-dark;
-        }
-
-        a:focus, a:hover {
-            color: $text-on-dark-active;
-            text-decoration: none;
-        }
-    }
-
-    ul {
+    > ul {
         cursor: default;
         display: inline;
         padding-left: 0px;
+
+        li {
+            list-style-type: none;
+            display: inline;
+            padding-left: 15px;
+            padding-right: 5px;
+
+            a {
+                color: $text-on-dark;
+            }
+
+            a:focus, a:hover {
+                color: $text-on-dark-active;
+                text-decoration: none;
+            }
+        }
     }
 
     span {
@@ -35,11 +35,15 @@ nav#menu {
         border-right: 2px solid $text-on-dark;
     }
 
-    i {
+    .dropdown {
         float: right;
         padding-right: 10px;
         font-size: 20px;
         line-height: 36px;
         cursor: pointer;
+
+        &:hover {
+            color: $text-on-dark-active;
+        }
     }
 }
