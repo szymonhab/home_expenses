@@ -1,20 +1,25 @@
 {% extends "expenses_app/layout.html" %}
 
 {% block content %}
-    <div class="well col-md-4">
-        <h3>Latest bills:</h3>
-        {% if latest_bill_list %}
-        <ul>
-            {% for bill in latest_bill_list %}
-            <li>
-                <a href="{% url 'expenses_app:bill_details' bill.id %}">
-                    {{ bill.shop }} {{ bill.amount }}
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>There are no bills yet.</p>
-        {% endif %}
+    <div class="page-index col-md-8 col-md-offset-2">
+        <div class="well col-md-4">
+            <h3>Latest bills:</h3>
+            {% if latest_bill_list %}
+            <ul>
+                {% for bill in latest_bill_list %}
+                <li>
+                    <a href="{% url 'expenses_app:bill_details' bill.id %}">
+                        {{ bill.shop }} {{ bill.amount }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="" class="pull-right">
+                Show all
+            </a>
+            {% else %}
+            <p>There are no bills yet.</p>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

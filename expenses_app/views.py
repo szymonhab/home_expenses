@@ -14,7 +14,7 @@ from .services import BillService
 
 @permission_required('expenses_app.access_workspace')
 def index(request):
-    latest_bill_list = Bill.objects.order_by('-add_datetime')[:10]
+    latest_bill_list = Bill.objects.order_by('-add_datetime')[:7]
     context = {
         'latest_bill_list': latest_bill_list
     }
@@ -68,7 +68,7 @@ def charts(request):
 
 
 @permission_required('expenses_app.access_workspace')
-def get_two_weeks_data():
+def get_two_weeks_data(request):
     date_from = datetime.date.today() - datetime.timedelta(days=14)
     bills = Bill.objects.filter(bill_date__gt=date_from, bill_date__lt=datetime.date.today(), workspace=1).values(
         'bill_date').annotate(day_sum=Sum('amount'))
