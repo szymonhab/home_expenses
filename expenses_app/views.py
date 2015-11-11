@@ -83,17 +83,22 @@ def get_two_weeks_data(request):
 @permission_required('expenses_app.access_workspace')
 def summary(request):
     date = datetime.date.today()
+    person = None
     if request.method == 'POST':
         form = SummaryDateForm(request.POST)
         if form.is_valid():
             date = form.cleaned_data['date']
+            person = form.cleaned_data['person']
     else:
         form = SummaryDateForm()
 
     categories = Category.objects.filter(workspace=1)
-    bills = Bill.objects.filter(bill_date__month=date.month, bill_date__year=date.year, workspace=1)
-    summary_data = {}
+    if person is None:
+        bills = Bill.objects.filter(bill_date__month=date.month, bill_date__year=date.year, workspace=1)
+    else:
+        bills = Bill.objects.filter(bill_date__month=date.month, bill_date__year=date.year, workspace=1, person=person)
 
+    summary_data = {}
     for category in categories:
         rows = BillRow.objects.filter(category=category, bill__in=list(bills)).aggregate(category_sum=Sum('amount'))
         summary_data[category.id] = {

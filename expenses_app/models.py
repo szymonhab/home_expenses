@@ -27,6 +27,7 @@ class Person(models.Model):
 
 class Shop(models.Model):
     name = models.CharField(max_length=127)
+    workspace = models.ForeignKey(Workspace)
 
     def __str__(self):
         return self.name
