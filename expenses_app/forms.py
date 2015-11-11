@@ -21,5 +21,13 @@ class BillForm(forms.Form):
 
 
 class SummaryDateForm(forms.Form):
-    date = forms.DateField(widget=forms.DateInput(format='%m/%Y'), initial=datetime.date.today(), input_formats=['%m/%Y'])
+    dateAttrs = {
+        'placeholder': 'MM/YYYY',
+        'data-ng-model': 'date',
+        'data-ng-pattern': 'datePattern',
+        'data-ng-required': 'true'
+    }
+    dateWidget = forms.DateInput(format='%m/%Y', attrs=dateAttrs)
+
+    date = forms.DateField(initial=datetime.date.today(), input_formats=['%m/%Y'], widget=dateWidget)
     person = forms.ModelChoiceField(queryset=Person.objects.filter(workspace=1), required=False)

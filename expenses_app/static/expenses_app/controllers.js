@@ -107,3 +107,10 @@ expensesApp.controller('ChartsCtrl', function ($scope, $http) {
         var myNewChart = new Chart(ctx).Line(chartData);
     });
 });
+
+expensesApp.controller('SummaryCtrl', function ($scope, $http) {
+    $scope.date = '';
+
+    var dateRegex = /^[\d]{2}\/[\d]{4}$/;
+    $scope.datePattern = dateRegex;
+});

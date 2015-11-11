@@ -110,5 +110,6 @@ def summary(request):
         'date': date,
         'summary_data': summary_data,
         'bills_sum': bills.aggregate(bills_sum=Sum('amount'))['bills_sum'],
-        'form': form
+        'form': form,
+        'date': date
     })
