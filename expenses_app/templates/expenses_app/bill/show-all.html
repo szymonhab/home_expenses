@@ -1,4 +1,5 @@
 {% extends "expenses_app/layout.html" %}
+{% load home_expenses_extras %}
 
 {% block content %}
     <div class="page-index col-md-10 col-md-offset-1">
@@ -20,7 +21,7 @@
                     class="pointer">
                     <td>{{ bill.id }}.</td>
                     <td>{{ bill.shop }}</td>
-                    <td>{{ bill.amount }}</td>
+                    <td>{{ bill.amount|currency }}</td>
                     <td>{{ bill.person }}</td>
                     <td>{{ bill.bill_date|date:"Y-m-d" }}</td>
                 </tr>

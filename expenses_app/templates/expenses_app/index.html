@@ -1,4 +1,5 @@
 {% extends "expenses_app/layout.html" %}
+{% load home_expenses_extras %}
 
 {% block content %}
     <div class="page-index col-md-8 col-md-offset-2">
@@ -9,7 +10,7 @@
                 {% for bill in latest_bill_list %}
                 <li>
                     <a href="{% url 'expenses_app:bill_details' bill.id %}">
-                        {{ bill.shop }} {{ bill.amount }}
+                        {{ bill.shop }} {{ bill.amount|currency }}
                     </a>
                 </li>
                 {% endfor %}

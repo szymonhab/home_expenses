@@ -1,4 +1,5 @@
 {% extends "expenses_app/layout.html" %}
+{% load home_expenses_extras %}
 
 {% block content %}
     <div class="page-bill col-md-8 col-md-offset-2">
@@ -12,7 +13,7 @@
         <h1>Bill {{ bill.id }}</h1>
 
         <ul>
-            <li>Amount: {{ bill.amount }}</li>
+            <li>Amount: {{ bill.amount|currency }}</li>
             <li>Shop: {{ bill.shop }}</li>
             <li>Person: {{ bill.person }}</li>
             <li>Add date: {{ bill.add_datetime|date:"Y-m-d H:i:s" }}</li>
@@ -30,7 +31,7 @@
             <tbody>
             {% for row in bill.billrow_set.all %}
                 <tr>
-                    <td>{{ row.amount }}</td>
+                    <td>{{ row.amount|currency }}</td>
                     <td>{{ row.category }}</td>
                     <td>{{ row.label }}</td>
                 </tr>
