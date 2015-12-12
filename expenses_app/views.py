@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.core import serializers
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Sum
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from .models import Bill, Category, BillRow
 from .forms import BillForm, SummaryDateForm
@@ -110,6 +111,22 @@ def summary(request):
         'date': date,
         'summary_data': summary_data,
         'bills_sum': bills.aggregate(bills_sum=Sum('amount'))['bills_sum'],
-        'form': form,
-        'date': date
+        'form': form
+    })
+
+
+@permission_required('expenses_app.access_workspace')
+def bill_show_all(request, page=1):
+    bills_list = Bill.objects.filter(workspace=1).select_related('shop', 'person').order_by('-id')
+    paginator = Paginator(bills_list, 20)
+
+    try:
+        bills = paginator.page(page)
+    except PageNotAnInteger:
+        bills = paginator.page(1)
+    except EmptyPage:
+        bills = paginator.page(paginator.num_pages)
+
+    return render(request, 'expenses_app/bill/show-all.html', {
+        'bills': bills
     })

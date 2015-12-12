@@ -1,0 +1,55 @@
+{% extends "expenses_app/layout.html" %}
+
+{% block content %}
+    <div class="page-index col-md-10 col-md-offset-1">
+        <h3>List of bills:</h3>
+
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Shop</th>
+                    <th>Amount</th>
+                    <th>Person</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bill in bills %}
+                <tr onclick="document.location = '{% url 'expenses_app:bill_details' bill.id %}';"
+                    class="pointer">
+                    <td>{{ bill.id }}.</td>
+                    <td>{{ bill.shop }}</td>
+                    <td>{{ bill.amount }}</td>
+                    <td>{{ bill.person }}</td>
+                    <td>{{ bill.bill_date|date:"Y-m-d" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <nav>
+            <ul class="pagination pull-right">
+                {% if bills.has_previous %}
+                <li>
+                    <a href="{% url 'expenses_app:bill_show_all' bills.previous_page_number %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% for page in bills.paginator.page_range %}
+                <li class="{% if bills.number == page %}active{% endif %}">
+                    <a href="{% url 'expenses_app:bill_show_all' page %}">{{ page }}</a>
+                </li>
+                {% endfor %}
+                {% if bills.has_next %}
+                <li>
+                    <a href="{% url 'expenses_app:bill_show_all' bills.next_page_number %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
